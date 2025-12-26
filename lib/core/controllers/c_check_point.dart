@@ -1,6 +1,12 @@
 import 'dart:io';
 
 import 'package:chat_application/features/home/presentation/view/s_home.dart';
+import 'package:chat_application/features/profile/controllers/c_profile.dart';
+import 'package:chat_application/features/profile/data/data_source/profile_data_source_impl.dart';
+import 'package:chat_application/features/profile/data/repository/patient_repository_impl.dart';
+import 'package:chat_application/root.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import '/./core/services/navigation_service.dart';
 import '../constants/keys.dart';
 import '../functions/f_is_null.dart';
@@ -20,9 +26,9 @@ import '../services/shared_preference_service.dart';
 //       int? themeIndex = await SharedPrefService.instance.getInt(
 //         PKeys.themeIndex,
 //       );
-//       final CTheme cTheme = PowerVault.find<CTheme>();
+//       final CTheme cTheme = Get.find<CTheme>();
 //       cTheme.updateTheme(index: themeIndex ?? (isDarkMode ? 1 : 0));
-//       final CProfile cProfile = PowerVault.put(
+//       final CProfile cProfile = Get.put(
 //         CProfile(ProfileRepositoryImpl(ProfileDataSourceImpl())),
 //       );
 //       String? token = await SharedPrefService.instance.getString(
@@ -45,10 +51,9 @@ class CCheckPoint {
     // await Future.delayed(const Duration(milliseconds: 500));
     // final context = NavigationService.currentContext;
     // if (!context.mounted) return;
-    // CProfile cProfile = PowerVault.put(
-    //   CProfile(ProfileRepositoryImpl(ProfileDataSourceImpl())),
-    // );
-    await const SHome().pushAndRemoveUntil();
+    CProfile cProfile = Get.put(
+      CProfile(ProfileRepositoryImpl(ProfileDataSourceImpl())),
+    );
+    await const SRoot().pushAndRemoveUntil();
   }
 }
-

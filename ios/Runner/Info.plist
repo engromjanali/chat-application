@@ -6,8 +6,12 @@
 	<!-- reference of url laucher -->
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-	<string>sms</string>
-	<string>tel</string>
+		<string>sms</string>
+		<string>tel</string>
+		
+		<!-- for sign-in with google -->
+		<string>google</string>
+		<string>com.googleusercontent.apps</string>
 	</array>
 	
 	<!-- reference of image picker -->
@@ -21,6 +25,18 @@
 	<!-- local auth reference -->
 	<key>NSFaceIDUsageDescription</key>
 	<string>Why is my app authenticating using face id?</string>
+
+	<!-- sign in with google -->
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<string>com.googleusercontent.apps.376377669660-h1cvjg2fqucah4dqo91c5l5dihm6ds3r</string>
+		</array>
+	</dict>
+	</array>
+
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

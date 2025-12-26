@@ -1,4 +1,3 @@
-
 import 'package:chat_application/core/constants/all_enums.dart';
 import 'package:chat_application/core/constants/colors.dart';
 import 'package:chat_application/core/constants/default_values.dart';
@@ -20,7 +19,7 @@ class WListTile extends StatelessWidget {
   final Function() onTap;
   final Function(ActionType) onAction;
   final bool isFromVault;
-  final bool isSecretNote;
+  final bool isHomeNote;
   const WListTile({
     super.key,
     this.leadingColor,
@@ -31,7 +30,7 @@ class WListTile extends StatelessWidget {
     required this.onTap,
     required this.onAction,
     this.isFromVault = false,
-    this.isSecretNote = false,
+    this.isHomeNote = false,
   });
 
   @override
@@ -42,7 +41,7 @@ class WListTile extends StatelessWidget {
         _showPopupMenu(
           context,
           isFromVault: isFromVault,
-          isSecretNote: isSecretNote,
+          isHomeNote: isHomeNote,
         );
       },
       child: ClipRRect(
@@ -92,7 +91,7 @@ class WListTile extends StatelessWidget {
   void _showPopupMenu(
     BuildContext context, {
     required bool isFromVault,
-    required bool isSecretNote,
+    required bool isHomeNote,
   }) {
     final RenderBox renderBox =
         context.findRenderObject() as RenderBox; // get parent/tile's position.
@@ -158,7 +157,7 @@ class WListTile extends StatelessWidget {
               ),
             ),
           ),
-        if (isFromVault && isSecretNote)
+        if (isFromVault && isHomeNote)
           PopupMenuItem(
             onTap: () {
               onAction(ActionType.removeFromVault);

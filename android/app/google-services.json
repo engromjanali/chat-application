@@ -15,41 +15,13 @@
       },
       "oauth_client": [
         {
-          "client_id": "376377669660-ds5fef2dlksfjkrac1m9fiqvemietuka.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCO5bBEjIq4U6_dg530ewK6KM2G0taKOhs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "376377669660-ds5fef2dlksfjkrac1m9fiqvemietuka.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "376377669660-h1cvjg2fqucah4dqo91c5l5dihm6ds3r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.chatApplication"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:376377669660:android:4d2913131e65deafb347d9",
-        "android_client_info": {
-          "package_name": "com.example.chat_application"
-        }
-      },
-      "oauth_client": [
+          "client_id": "376377669660-djnqb0acvlmutn4k4pgpsa2mjt62c1tl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.engromjanali.chatapplication",
+            "certificate_hash": "c3e83f7cab1129c73f67b00fba69b08de7d1dbe1"
+          }
+        },
         {
           "client_id": "376377669660-ds5fef2dlksfjkrac1m9fiqvemietuka.apps.googleusercontent.com",
           "client_type": 3

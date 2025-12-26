@@ -3,17 +3,15 @@ import 'dart:typed_data';
 import 'package:chat_application/core/functions/f_printer.dart';
 import 'package:encrypt/encrypt.dart';
 
-class SecretService {
+class HomeService {
   late Key _key;
   late IV _iv;
   late Encrypter _encrypter;
   // bool isInitiated = false;
 
-  SecretService._();
-  static SecretService _instance = SecretService._();
-  factory SecretService() => _instance;
-
-
+  HomeService._();
+  static HomeService _instance = HomeService._();
+  factory HomeService() => _instance;
 
   Future<void> init(String rawKey) async {
     printer("raw ;$rawKey");
