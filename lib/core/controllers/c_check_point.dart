@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chat_application/home.dart';
+import 'package:chat_application/features/home/presentation/view/s_home.dart';
 import '/./core/services/navigation_service.dart';
 import '../constants/keys.dart';
 import '../functions/f_is_null.dart';

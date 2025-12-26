@@ -3,7 +3,7 @@ import 'package:chat_application/core/extensions/ex_build_context.dart';
 import 'package:chat_application/core/functions/f_default_scrolling.dart';
 import 'package:chat_application/core/services/navigation_service.dart';
 import 'package:chat_application/firebase_options.dart';
-import 'package:chat_application/home.dart';
+import 'package:chat_application/features/home/presentation/view/s_home.dart';
 import 'package:chat_application/spalsh.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:device_preview/device_preview.dart';
