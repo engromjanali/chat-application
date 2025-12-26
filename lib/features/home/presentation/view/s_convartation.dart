@@ -1,7 +1,8 @@
 import 'package:chat_application/core/constants/default_values.dart';
 import 'package:chat_application/core/extensions/ex_expanded.dart';
 import 'package:chat_application/core/extensions/ex_padding.dart';
-import 'package:chat_application/core/widgets/w_card.dart';
+import 'package:chat_application/core/services/navigation_service.dart';
+import 'package:chat_application/core/widgets/w_dialog.dart';
 import 'package:chat_application/core/widgets/w_text_field.dart';
 import 'package:chat_application/features/home/data/model/m_friend.dart';
 import 'package:chat_application/features/home/data/model/m_message.dart';
@@ -43,10 +44,35 @@ class _SConvartationState extends State<SConvartation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.mFriend.name ?? PDefaultValues.noName)),
+      appBar: AppBar(
+        title: Text(widget.mFriend.name ?? PDefaultValues.noName),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              // clear all history
+              bool? res = await WDialog.showCustom(
+                context: context,
+                children: [
+                  Text("Clear History!"),
+                  TextButton(
+                    onPressed: () {
+                      Navigation.pop(data: true);
+                    },
+                    child: Text("Yes"),
+                  ),
+                ],
+              );
+
+              if (res ?? false) {
+                _dbRef.remove();
+              }
+            },
+            icon: Icon(Icons.more_vert),
+          ),
+        ],
+      ),
       body: Column(
         children: [
-          /// 🔥 MESSAGE LIST
           StreamBuilder<DatabaseEvent>(
             stream: _dbRef.onValue,
             builder: (context, snapshot) {
@@ -80,10 +106,9 @@ class _SConvartationState extends State<SConvartation> {
               );
             },
           ).expd(),
-
           gapY(10.h),
 
-          /// ✉️ INPUT
+          /// INPUT
           WTextField(
             hintText: "Message",
             controller: _controller,
