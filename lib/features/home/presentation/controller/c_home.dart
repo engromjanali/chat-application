@@ -1,9 +1,14 @@
+import 'package:chat_application/features/home/data/data_source/home_data_source_impl.dart';
+import 'package:chat_application/features/home/data/repositories/home_repositorie_impl.dart';
+import 'package:chat_application/features/home/domain/entryes/e_message.dart';
+import 'package:chat_application/features/home/domain/entryes/e_query.dart';
 import 'package:chat_application/core/constants/default_values.dart';
 import 'package:chat_application/core/controllers/c_base.dart';
 import 'package:chat_application/core/functions/f_printer.dart';
 import 'package:chat_application/features/home/data/model/m_friend.dart';
-import 'package:chat_application/features/home/data/model/m_query.dart';
 import 'package:chat_application/features/home/domain/repositores/home_repositorie.dart';
+import 'package:chat_application/features/home/domain/usecase/send_message_use_case.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CHome extends CBase {
   final IHomeRepository _iHomeRepository;
@@ -25,6 +30,17 @@ class CHome extends CBase {
     hasMoreNext = true;
     hasMorePrev = false;
     isLoadingMore = false;
+  }
+
+  Future<List<String>> storeFileList({required List<XFile> fileList}) async {
+    return ["1 image", "2 image"];
+  }
+
+  void sendMessage(EMessage payload) async {
+    SendMessageUseCase sendMessageUseCase = SendMessageUseCase(
+      HomeRepositoryImpl(HomeDatasourceImpl()),
+    );
+    sendMessageUseCase.call(payload);
   }
 
   // void listenFundDocChanges({required String messId}) {
@@ -126,7 +142,7 @@ class CHome extends CBase {
       isLoadingMore = true;
       update();
       printer("delete");
-      await _iHomeRepository.deteteHomeNote(userId);
+      await _iHomeRepository.deteteHomeFriend(userId);
       // clear from runtime storage
       secretList.removeWhere((mFriend) => mFriend.userId == userId);
     } catch (e) {
@@ -137,15 +153,15 @@ class CHome extends CBase {
     }
   }
 
-  Future<void> fetchHome({MQuery? payload}) async {
+  Future<void> fetchHome({EQuery? payload}) async {
     secretList.clear();
     await fetchSpacificItem(payload: payload);
   }
 
-  Future<List<MFriend>?> fetchSpacificItem({MQuery? payload}) async {
+  Future<List<MFriend>?> fetchSpacificItem({EQuery? payload}) async {
     printer("fetchSpacificItem $hasMoreNext");
     try {
-      MQuery newPayload = MQuery(
+      EQuery newPayload = EQuery(
         isLoadNext: payload?.isLoadNext ?? true,
         limit: payload?.limit ?? limit,
         firstEid: payload?.firstEid ?? firstSId,
@@ -171,7 +187,7 @@ class CHome extends CBase {
       printer("call 5");
       isLoadingMore = true;
       update();
-      List<MFriend> res = await _iHomeRepository.fetchHomeNote(newPayload);
+      List<MFriend> res = await _iHomeRepository.fetchHomeFriend(newPayload);
       printer("res : ${res.length}");
       if (newPayload.isLoadNext!) {
         secretList.addAll(res);

@@ -1,22 +1,34 @@
 import 'package:chat_application/core/constants/default_values.dart';
+import 'package:chat_application/core/extensions/ex_build_context.dart';
 import 'package:chat_application/core/extensions/ex_expanded.dart';
 import 'package:chat_application/core/extensions/ex_padding.dart';
+import 'package:chat_application/core/functions/f_is_null.dart';
+import 'package:chat_application/core/functions/f_printer.dart';
+import 'package:chat_application/core/services/image_picker_services.dart';
 import 'package:chat_application/core/services/navigation_service.dart';
+import 'package:chat_application/core/widgets/image/m_image_payload.dart';
+import 'package:chat_application/core/widgets/image/w_image.dart';
 import 'package:chat_application/core/widgets/w_dialog.dart';
+import 'package:chat_application/core/widgets/w_image_source_dialog.dart';
 import 'package:chat_application/core/widgets/w_text_field.dart';
-import 'package:chat_application/features/home/data/model/m_friend.dart';
 import 'package:chat_application/features/home/data/model/m_message.dart';
+import 'package:chat_application/features/home/domain/entryes/e_firend.dart';
+import 'package:chat_application/features/home/domain/entryes/e_message.dart';
+import 'package:chat_application/features/home/presentation/controller/c_home.dart';
 import 'package:chat_application/features/home/presentation/widget/w_message_card.dart';
 import 'package:chat_application/features/profile/controllers/c_profile.dart';
+import 'package:chat_application/gen/assets.gen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SConvartation extends StatefulWidget {
-  final MFriend mFriend;
-  const SConvartation({super.key, required this.mFriend});
+  final EFriend eFriend;
+  const SConvartation({super.key, required this.eFriend});
 
   @override
   State<SConvartation> createState() => _SConvartationState();
@@ -26,26 +38,45 @@ class _SConvartationState extends State<SConvartation> {
   final DatabaseReference _dbRef = FirebaseDatabase.instance.ref("messages");
   final CProfile cProfile = Get.find<CProfile>();
   final TextEditingController _controller = TextEditingController();
+  ValueNotifier<List<XFile>> fileNotifier = ValueNotifier<List<XFile>>([]);
 
-  void sendMessage() {
-    if (_controller.text.trim().isEmpty) return;
+  void sendMessage() async {
+    if (_controller.text.trim().isEmpty && fileNotifier.value.isEmpty) return;
 
-    final newRef = _dbRef.push();
-
-    newRef.set({
-      "text": _controller.text.trim(),
-      "sender": cProfile.mProfileData.id,
-      "time": DateTime.now().toIso8601String(),
-    });
+    CHome cHome = Get.find<CHome>();
+    cHome.sendMessage(
+      EMessage(
+        messageId: "messageId",
+        text: _controller.text.trim(),
+        files: fileNotifier.value.map((val) => val.path).toList(),
+        sender: cProfile.mProfileData.id ?? "No-Id",
+        time: null,
+      ),
+    );
 
     _controller.clear();
+    fileNotifier.value.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.mFriend.name ?? PDefaultValues.noName),
+        leadingWidth: 20.w,
+        title: Row(
+          children: [
+            WImage(
+              widget.eFriend.pImage,
+              payload: MImagePayload(isCircular: true, isProfileImage: true),
+            ).pR(),
+            Flexible(
+              child: Text(
+                widget.eFriend.name ?? PDefaultValues.noName,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -97,8 +128,9 @@ class _SConvartationState extends State<SConvartation> {
               return ListView.builder(
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
+                  printer(messages[index].messageId);
                   return WMessageCard(
-                    mMessage: messages[index],
+                    eMessage: messages[index],
                     isYourMessage:
                         cProfile.mProfileData.id == messages[index].sender,
                   ).pV();
@@ -109,13 +141,51 @@ class _SConvartationState extends State<SConvartation> {
           gapY(10.h),
 
           /// INPUT
-          WTextField(
-            hintText: "Message",
-            controller: _controller,
-            suffixIcon: GestureDetector(
-              onTap: sendMessage,
-              child: const Icon(Icons.send),
-            ),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  ImageSource? res = await WISSDialog(context);
+                  if (isNotNull(res)) {
+                    if (res == ImageSource.camera) {
+                      ImagePickerServices().pickSingleImage(
+                        choseFrom: ImageSource.camera,
+                      );
+                    } else {
+                      // don't lose already selected file
+                      fileNotifier.value;
+
+                      List<XFile>? pickedFile = await ImagePickerServices()
+                          .pickMultipleImage();
+                      fileNotifier.value.addAll(pickedFile ?? []);
+                      sendMessage();
+                    }
+                  }
+                },
+                child: SvgPicture.asset(
+                  Assets.icons.add!,
+                  height: 25.w,
+                  width: 25.w,
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    context.primaryTextColor!,
+                    BlendMode.srcIn,
+                  ),
+                ).pR(),
+              ),
+
+              WTextField(
+                hintText: "Message",
+                controller: _controller,
+                maxLines: 5,
+                minLines: 1,
+                textInputAction: TextInputAction.newline,
+                suffixIcon: GestureDetector(
+                  onTap: sendMessage,
+                  child: const Icon(Icons.send),
+                ),
+              ).expd(),
+            ],
           ),
         ],
       ).pAll(),

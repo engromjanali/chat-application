@@ -172,7 +172,7 @@ class _WTextFieldState extends State<WTextField> {
 
   Widget _textField() {
     return TextFormField(
-      textAlignVertical: TextAlignVertical.top,
+      textAlignVertical: TextAlignVertical.center,
       validator: (v) {
         final validation = widget.validator?.call(v);
 

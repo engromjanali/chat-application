@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 /// remember picked image is a file so we can't treat it as asset,
 /// treat as file,
 /// Image.file(File(_pickedFile!.path))
-class SvImagePicker {
+class ImagePickerServices {
   ImagePicker _picker = ImagePicker();
 
   Future<XFile?> pickSingleImage({

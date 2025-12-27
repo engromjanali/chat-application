@@ -7,9 +7,7 @@ class PKeys {
   static const userRefreshtoken = "userRefreshToken";
 
   //
-  static const secret = "secret";
-  static const passkey = "passkey";
-  static const secretNote = "secretNote";
+  static const friends = "firends";
   static const users = "users";
   static const eKey = "eKey";
   // static const sessionKey = "sessionKey";

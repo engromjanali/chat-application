@@ -6,6 +6,7 @@ class MImagePayload {
   final double? height, width;
   final BoxFit? fit;
   final bool? isCircular, isProfileImage;
+  final double borderRadius;
 
   MImagePayload({
     this.errorImage,
@@ -15,5 +16,6 @@ class MImagePayload {
     this.isCircular,
     this.isProfileImage,
     this.width,
+    this.borderRadius = 0,
   });
 }

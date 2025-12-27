@@ -77,7 +77,10 @@ class WImage extends StatelessWidget {
       );
     }
 
-    return imageWidget;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(payload?.borderRadius ?? 0),
+      child: imageWidget,
+    );
   }
 }
 

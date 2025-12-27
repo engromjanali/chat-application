@@ -3,7 +3,7 @@ import 'package:chat_application/core/extensions/ex_build_context.dart';
 import 'package:chat_application/core/extensions/ex_expanded.dart';
 import 'package:chat_application/core/extensions/ex_padding.dart';
 import 'package:chat_application/core/functions/f_printer.dart';
-import 'package:chat_application/core/widgets/w_home_section.dart';
+import 'package:chat_application/features/home/presentation/widget/w_home_section.dart';
 import 'package:chat_application/features/home/data/data_source/home_data_source_impl.dart';
 import 'package:chat_application/features/home/data/repositories/home_repositorie_impl.dart';
 import 'package:chat_application/features/home/presentation/controller/c_home.dart';

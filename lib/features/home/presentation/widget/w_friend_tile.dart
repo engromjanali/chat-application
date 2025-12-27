@@ -6,13 +6,13 @@ import 'package:chat_application/core/extensions/ex_padding.dart';
 import 'package:chat_application/core/widgets/image/m_image_payload.dart';
 import 'package:chat_application/core/widgets/image/w_image.dart';
 import 'package:chat_application/core/widgets/w_card.dart';
-import 'package:chat_application/features/home/data/model/m_friend.dart';
+import 'package:chat_application/features/home/domain/entryes/e_firend.dart';
 import 'package:flutter/material.dart';
 
 class WFriendTile extends StatelessWidget {
   final Function()? onTap;
-  final MFriend mFriend;
-  const WFriendTile({super.key, this.onTap, required this.mFriend});
+  final EFriend eFriend;
+  const WFriendTile({super.key, this.onTap, required this.eFriend});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class WFriendTile extends StatelessWidget {
           children: [
             // Profile Image
             WImage(
-              mFriend.pImage,
+              eFriend.pImage,
               payload: MImagePayload(
                 height: 50,
                 width: 50,
@@ -41,11 +41,11 @@ class WFriendTile extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      mFriend.name ?? PDefaultValues.noName,
+                      eFriend.name ?? PDefaultValues.noName,
                       style: context.textTheme?.titleSmall,
                     ).expd(),
                     Text(
-                      mFriend.time?.format(
+                      eFriend.time?.format(
                             DateTimeFormattingExtension
                                 .formatDDMMMYYYY_I_HHMMSSA,
                           ) ??
@@ -55,7 +55,7 @@ class WFriendTile extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  mFriend.lastMessage ??
+                  eFriend.lastMessage ??
                       "Hello, Romjan How Are You?? I Wanna Meet to You.",
                   overflow: TextOverflow.ellipsis,
                   style: context.textTheme?.bodySmall,

@@ -1,6 +1,6 @@
+import 'package:chat_application/features/home/domain/entryes/e_firend.dart';
+import 'package:chat_application/features/home/domain/entryes/e_query.dart';
 import 'package:chat_application/core/constants/default_values.dart';
-import 'package:chat_application/core/constants/dimension_theme.dart';
-import 'package:chat_application/core/extensions/ex_build_context.dart';
 import 'package:chat_application/core/extensions/ex_date_time.dart';
 import 'package:chat_application/core/extensions/ex_expanded.dart';
 import 'package:chat_application/core/extensions/ex_padding.dart';
@@ -10,7 +10,6 @@ import 'package:chat_application/core/functions/f_printer.dart';
 import 'package:chat_application/core/services/navigation_service.dart';
 import 'package:chat_application/core/widgets/w_app_shimmer.dart';
 import 'package:chat_application/features/home/data/model/m_friend.dart';
-import 'package:chat_application/features/home/data/model/m_query.dart';
 import 'package:chat_application/features/home/presentation/controller/c_home.dart';
 import 'package:chat_application/features/home/presentation/view/s_convartation.dart';
 import 'package:chat_application/features/home/presentation/widget/w_friend_tile.dart';
@@ -24,7 +23,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 class WHomeSection extends StatefulWidget {
   final Color? leadingColor;
   final String? title;
-  // final List<MFriend>? items;
+  // final List<EFriend>? items;
   final Function()? onTap;
   final bool asSliver;
   final Function()? loadNext;
@@ -57,7 +56,7 @@ class _WHomeSectionState extends State<WHomeSection> {
   double lastPosition = 0;
   ScrollDirection currentScrollDirection = ScrollDirection.reverse;
   CHome cHome = Get.find<CHome>();
-  List<MFriend> friendItems = [];
+  List<EFriend> friendItems = [];
 
   @override
   void initState() {
@@ -119,7 +118,7 @@ class _WHomeSectionState extends State<WHomeSection> {
           // add previous
           printer("call for load previous");
 
-          cHome!.fetchSpacificItem(payload: MQuery(isLoadNext: false));
+          cHome!.fetchSpacificItem(payload: EQuery(isLoadNext: false));
         }
         // load next
         if (lastVisibleIndex >= ((friendItems.length) - 11) &&
@@ -129,7 +128,7 @@ class _WHomeSectionState extends State<WHomeSection> {
           // load next
           printer("call for load next");
 
-          cHome!.fetchSpacificItem(payload: MQuery(isLoadNext: true));
+          cHome!.fetchSpacificItem(payload: EQuery(isLoadNext: true));
         }
         // set scroll direction.
         double currentPosition = firstVisibleItem.itemLeadingEdge;
@@ -269,9 +268,9 @@ class _WHomeSectionState extends State<WHomeSection> {
         if (index < (friendItems.length))
           WFriendTile(
             onTap: () {
-              SConvartation(mFriend: friendItems[index]).push();
+              SConvartation(eFriend: friendItems[index]).push();
             },
-            mFriend: friendItems[index],
+            eFriend: friendItems[index],
           ),
         // loading
         if (isNotNull(nextChild)) nextChild!,
@@ -280,7 +279,7 @@ class _WHomeSectionState extends State<WHomeSection> {
   }
 
   // void onAction(ActionType actionType, int index) {
-  //   MFriend? mHome;
+  //   EFriend? mHome;
   //   if (widget.isHomeNote) {
   //     mHome = friendItems[index];
   //   }

@@ -1,4 +1,4 @@
-class MQuery {
+class EQuery {
   final int? pageNo;
   final int? limit;
   final bool? isLoadNext;
@@ -7,7 +7,7 @@ class MQuery {
   // final String? where;
   List? args;
 
-  MQuery({
+  EQuery({
     // this.where,
     this.args,
     this.firstEid,

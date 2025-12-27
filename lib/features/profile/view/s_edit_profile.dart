@@ -1,4 +1,3 @@
-
 import 'package:chat_application/core/constants/dimension_theme.dart';
 import 'package:chat_application/core/extensions/ex_keyboards.dart';
 import 'package:chat_application/core/extensions/ex_padding.dart';
@@ -18,7 +17,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 class SEditProfile extends StatefulWidget {
   const SEditProfile({super.key});
@@ -109,7 +107,7 @@ class _SEditProfileState extends State<SEditProfile> {
                             ImageSource? res = await WISSDialog(context);
                             if (isNotNull(res)) {
                               selectedImage.value =
-                                  await SvImagePicker().pickSingleImage(
+                                  await ImagePickerServices().pickSingleImage(
                                     choseFrom: res!,
                                   ) ??
                                   selectedImage.value;
